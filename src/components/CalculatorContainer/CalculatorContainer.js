@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import math from 'mathjs'
 
 import './CalculatorContainer.css'
 import Button from '../Button/Button'
@@ -6,10 +7,45 @@ import Buttons from '../Buttons/Buttons'
 import Screen from '../Screen/Screen'
 
 class CalculatorContainer extends Component {
+    state = {
+        operations: []
+    }
+
+    calculate = () => {
+        let result = this.state.operations.join('')
+        if (result) {
+            result = math.eval(result)
+            result = math.format(result, { precision: 14 })
+            this.setState({
+                operations: [result]
+            })
+        }
+    }
+
+    handleClick = e => {
+        const value = e.target.getAttribute('data-value')
+        switch (value) {
+            case 'clear':
+                this.setState({
+                    operations: []
+                })
+                break
+            case '=':
+                this.calculate()
+                break
+            default:
+                const newOperations = [...this.state.operations, value]
+                this.setState({
+                    operations: newOperations
+                })
+                break
+        }
+    }
+
     render() {
         return (
             <div className="container">
-                <Screen id="display"/>
+                <Screen id="display" data={this.state.operations} />
                 <Buttons id="buttons">
                     <Button id="clear" onClick={this.handleClick} label="C" value="clear" />
                     <Button id="divide" onClick={this.handleClick} label="/" value="/" />
@@ -27,7 +63,7 @@ class CalculatorContainer extends Component {
                     <Button id="three" onClick={this.handleClick} label="3" value="3" />
                     <Button id="equals" onClick={this.handleClick} label="=" value="=" />
                     <Button id="zero" onClick={this.handleClick} label="0" value="0" />
-                    <Button id="decimal" onClick={this.handleClick} label="," value="," />
+                    <Button id="decimal" onClick={this.handleClick} label="." value="." />
                 </Buttons>
             </div>
         );
