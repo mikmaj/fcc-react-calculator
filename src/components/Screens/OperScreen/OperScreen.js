@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 
-class Screen extends Component {
+class OperScreen extends Component {
     render() {
         const string = this.props.data
         return (
             <div id={this.props.id} className="Display">
-                {string}
+                <span>{string}</span>
             </div>
         );
     }
 }
 
-export default Screen;
+export default OperScreen;

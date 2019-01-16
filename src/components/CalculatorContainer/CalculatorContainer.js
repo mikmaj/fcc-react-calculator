@@ -2,13 +2,16 @@ import React, { Component } from 'react';
 import math from 'mathjs'
 
 import './CalculatorContainer.css'
-import Button from '../Button/Button'
+import Button from '../Buttons/Button/Button'
 import Buttons from '../Buttons/Buttons'
-import Screen from '../Screen/Screen'
+import CalcScreen from '../Screens/CalcScreen/CalcScreen'
+import OperScreen from '../Screens/OperScreen/OperScreen'
+import Screens from '../Screens/Screens'
 
 class CalculatorContainer extends Component {
     state = {
-        operations: []
+        operations: ["0"],
+        calculating: false
     }
 
     calculate = () => {
@@ -17,7 +20,8 @@ class CalculatorContainer extends Component {
             result = math.eval(result)
             result = math.format(result, { precision: 14 })
             this.setState({
-                operations: [result]
+                operations: [result],
+                calculating: false
             })
         }
     }
@@ -26,26 +30,40 @@ class CalculatorContainer extends Component {
         const value = e.target.getAttribute('data-value')
         switch (value) {
             case 'clear':
+                // If calculator is cleared, return initial state
                 this.setState({
-                    operations: []
+                    operations: ["0"]
                 })
                 break
             case '=':
                 this.calculate()
                 break
             default:
-                const newOperations = [...this.state.operations, value]
-                this.setState({
-                    operations: newOperations
-                })
-                break
+                // If calculator is on stand-by, remove the default zero by inserting the input value in an empty array
+                if(!this.state.calculating) {
+                    const newOperations = [value]
+                    this.setState({
+                        operations: newOperations,
+                        calculating: true
+                    })
+                    break
+                } else {
+                    const newOperations = [...this.state.operations, value]
+                    this.setState({
+                        operations: newOperations
+                    })
+                    break
+                }
         }
     }
 
     render() {
         return (
             <div className="container">
-                <Screen id="display" data={this.state.operations} />
+                <Screens id="screens">
+                    <OperScreen id="operScreen" data={this.state.operations} />
+                    <CalcScreen id="calcScreen" data={this.state.operations} />
+                </Screens>
                 <Buttons id="buttons">
                     <Button id="clear" onClick={this.handleClick} label="C" value="clear" />
                     <Button id="divide" onClick={this.handleClick} label="/" value="/" />
