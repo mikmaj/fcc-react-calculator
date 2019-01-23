@@ -2,6 +2,8 @@
     --numbers-color: #c7f2cc;
     --operations-color: #fdd0e4;
     font-size: 30px;
+    font-family: 'Nova Mono', monospace;
+    text-align: center;
     min-height: 400px;
     width: 300px;
     margin: auto;
@@ -22,16 +24,18 @@
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 1fr;
     text-align: end;
-    background-color: #2a2c31
+    background-color: #2a2c31;
+    font-family: 'VT323', monospace;
 }
 
 #operScreen { 
-    font-size: 20px;
+    font-size: 35px;
     padding-right: 8px;
     color: #19d209;
 }
 
 #calcScreen {
+    font-size: 45px;
     padding-right: 8px;
     color: #19d209;
 }
@@ -47,30 +51,123 @@
     background:#b83658;
     grid-column: 1 / 3;
     box-shadow: 2px 2px 2px grey;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-#divide { background: var(--operations-color); box-shadow: 2px 2px 2px grey; }
-#multiply { background: var(--operations-color); box-shadow: 2px 2px 2px grey; }
-#seven { background: var(--numbers-color); box-shadow: 2px 2px 2px grey; }
-#eight { background: var(--numbers-color); box-shadow: 2px 2px 2px grey; }
-#nine { background: var(--numbers-color); box-shadow: 2px 2px 2px grey; }
-#subtract { background: var(--operations-color); box-shadow: 2px 2px 2px grey; }
-#four { background: var(--numbers-color); box-shadow: 2px 2px 2px grey; }
-#five { background: var(--numbers-color); box-shadow: 2px 2px 2px grey; }
-#six { background: var(--numbers-color); box-shadow: 2px 2px 2px grey; }
-#add { background: var(--operations-color); box-shadow: 2px 2px 2px grey; }
-#one { background: var(--numbers-color); box-shadow: 2px 2px 2px grey; }
-#two { background: var(--numbers-color); box-shadow: 2px 2px 2px grey; }
-#three { background: var(--numbers-color); box-shadow: 2px 2px 2px grey; }
+#divide { 
+    background: var(--operations-color); 
+    box-shadow: 2px 2px 2px grey; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#multiply { 
+    background: var(--operations-color); 
+    box-shadow: 2px 2px 2px grey; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#seven { 
+    background: var(--numbers-color); 
+    box-shadow: 2px 2px 2px grey; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#eight { 
+    background: var(--numbers-color); 
+    box-shadow: 2px 2px 2px grey; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#nine { 
+    background: var(--numbers-color); 
+    box-shadow: 2px 2px 2px grey; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#subtract { 
+    background: var(--operations-color); 
+    box-shadow: 2px 2px 2px grey; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#four { 
+    background: var(--numbers-color); 
+    box-shadow: 2px 2px 2px grey; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#five { 
+    background: var(--numbers-color); 
+    box-shadow: 2px 2px 2px grey; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#six { 
+    background: var(--numbers-color); 
+    box-shadow: 2px 2px 2px grey; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#add { 
+    background: var(--operations-color); 
+    box-shadow: 2px 2px 2px grey; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#one { 
+    background: var(--numbers-color); 
+    box-shadow: 2px 2px 2px grey; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#two { 
+    background: var(--numbers-color); 
+    box-shadow: 2px 2px 2px grey;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+}
+#three { 
+    background: var(--numbers-color); 
+    box-shadow: 2px 2px 2px grey; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 #equals { 
     background: var(--operations-color); 
     box-shadow: 2px 2px 2px grey;
     grid-column: 4 / 5;
     grid-row: 4 / 6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 #zero { 
     background: var(--numbers-color); 
     box-shadow: 2px 2px 2px grey;
     grid-column: 1 / 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-#decimal { background: var(--numbers-color); box-shadow: 2px 2px 2px grey; }
+#decimal { 
+    background: var(--numbers-color); 
+    box-shadow: 2px 2px 2px grey;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
