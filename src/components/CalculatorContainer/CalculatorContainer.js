@@ -10,18 +10,23 @@ import Screens from '../Screens/Screens'
 
 class CalculatorContainer extends Component {
     state = {
-        operations: ["0"],
-        calculating: false
+        operationsUpper: [],
+        operationsLower: ["0"],
+        calculating: false,
+        previous: ''
     }
 
     calculate = () => {
-        let result = this.state.operations.join('')
+        let result = this.state.operationsUpper.join('')
         if (result) {
             result = math.eval(result)
             result = math.format(result, { precision: 14 })
+            const newOperationsUpper = [...this.state.operationsUpper, "=", result]
             this.setState({
-                operations: [result],
-                calculating: false
+                operationsLower: [result],
+                operationsUpper: newOperationsUpper,
+                calculating: false,
+                previous: '='
             })
         }
     }
@@ -29,29 +34,104 @@ class CalculatorContainer extends Component {
     handleClick = e => {
         const value = e.target.getAttribute('data-value')
         switch (value) {
+            // If calculator is cleared, return initial state
             case 'clear':
-                // If calculator is cleared, return initial state
                 this.setState({
-                    operations: ["0"]
+                    operationsUpper: [],
+                    operationsLower: ["0"],
+                    calculating: false,
+                    previous: 'clear'
                 })
                 break
+            // If = is pressed, calculate the result
             case '=':
                 this.calculate()
                 break
+            // If + is pressed, set lower display to show only '+'
+            case '+':
+                if (this.state.previous !== '+') {
+                    const addUpper = [...this.state.operationsUpper, "+"]
+                    this.setState({
+                        operationsUpper: addUpper,
+                        operationsLower: ["+"],
+                        previous: '+'
+                    })
+                }
+                break
+
+            case '*':
+                if (this.state.previous !== '*') {
+                    const multiplyUpper = [...this.state.operationsUpper, "*"]
+                    this.setState({
+                        operationsUpper: multiplyUpper,
+                        operationsLower: ["*"],
+                        previous: '*'
+                    })
+                }
+                break
+
+            case '-':
+                if (!this.state.calculating) {
+                    this.setState({
+                        operationsUpper: ["-"],
+                        operationsLower: ["-"],
+                        previous: '-',
+                        calculating: true
+                    })
+                } else {
+                    if (this.state.previous !== '-') {
+                        const subtractUpper = [...this.state.operationsUpper, "-"]
+                        this.setState({
+                            operationsUpper: subtractUpper,
+                            operationsLower: ["-"],
+                            previous: '-'
+                        })
+                    }
+                }
+                break
+
+            case '/':
+                if (this.state.previous !== '/') {
+                    const divideUpper = [...this.state.operationsUpper, "/"]
+                    this.setState({
+                        operationsUpper: divideUpper,
+                        operationsLower: ["/"],
+                        previous: '/'
+                    })
+                }
+                break
+
             default:
                 // If calculator is on stand-by, remove the default zero by inserting the input value in an empty array
-                if(!this.state.calculating) {
-                    const newOperations = [value]
+                if (!this.state.calculating) {
+                    const newOperationsLower = [value]
+                    const newOperationsUpper = [value]
                     this.setState({
-                        operations: newOperations,
-                        calculating: true
+                        operationsLower: newOperationsLower,
+                        operationsUpper: newOperationsUpper,
+                        calculating: true,
+                        previous: 'num'
                     })
                     break
                 } else {
-                    const newOperations = [...this.state.operations, value]
-                    this.setState({
-                        operations: newOperations
-                    })
+                    // If an operation key was pressed previously, push the number in an empty array on the lower display
+                    if (this.state.previous === '+' || this.state.previous === '-' || this.state.previous === '*' || this.state.previous === '/') {
+                        const newOperationsLower = [value]
+                        const newOperationsUpper = [...this.state.operationsUpper, value]
+                        this.setState({
+                            operationsUpper: newOperationsUpper,
+                            operationsLower: newOperationsLower,
+                            previous: 'num'
+                        })
+                    } else {
+                        const newOperationsLower = [...this.state.operationsLower, value]
+                        const newOperationsUpper = [...this.state.operationsUpper, value]
+                        this.setState({
+                            operationsUpper: newOperationsUpper,
+                            operationsLower: newOperationsLower,
+                            previous: 'num'
+                        })
+                    }
                     break
                 }
         }
@@ -61,8 +141,8 @@ class CalculatorContainer extends Component {
         return (
             <div className="container">
                 <Screens id="screens">
-                    <OperScreen id="operScreen" data={this.state.operations} />
-                    <CalcScreen id="calcScreen" data={this.state.operations} />
+                    <OperScreen id="operScreen" data={this.state.operationsUpper} />
+                    <CalcScreen id="calcScreen" data={this.state.operationsLower} />
                 </Screens>
                 <Buttons id="buttons">
                     <Button id="clear" onClick={this.handleClick} label="C" value="clear" />
