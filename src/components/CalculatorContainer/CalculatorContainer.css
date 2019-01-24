@@ -29,13 +29,13 @@
 }
 
 #operScreen { 
-    font-size: 35px;
+    font-size: 25px;
     padding-right: 8px;
     color: #19d209;
 }
 
 #calcScreen {
-    font-size: 45px;
+    font-size: 35px;
     padding-right: 8px;
     color: #19d209;
 }

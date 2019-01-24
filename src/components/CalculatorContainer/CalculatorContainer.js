@@ -15,23 +15,48 @@ class CalculatorContainer extends Component {
         calculating: false,
         previous: ''
     }
-
-    calculate = () => {
+    
+    calculate = (value) => {
+        // Show a more precise result on the lower display, and round it up a bit on the upper one for more room
         let result = this.state.operationsUpper.join('')
+        let resultUpper = this.state.operationsUpper.join('')
         if (result) {
             result = math.eval(result)
-            result = math.format(result, { precision: 14 })
-            const newOperationsUpper = [...this.state.operationsUpper, "=", result]
+            resultUpper = math.eval(resultUpper)
+            result = math.format(result, { precision: 8 })
+            resultUpper = math.format(resultUpper, { precision: 4 })
+            const newOperationsUpper = [...this.state.operationsUpper, value, resultUpper]
             this.setState({
                 operationsLower: [result],
                 operationsUpper: newOperationsUpper,
-                calculating: false,
-                previous: '='
+                calculating: true,
+                previous: value
             })
         }
     }
 
+    // Allow calculation chaining by extracting the result and continuing calculation normally
+    continueCalculation = (value) => {
+        const sumDisplay = [...this.state.operationsUpper].pop()
+        this.setState({
+            operationsUpper: [sumDisplay, value],
+            operationsLower: [value],
+            previous: value
+        })
+    }
+
+    // Add the operator on the lower display and make sure the whole operation is on the upper display
+    addCalculationOnDisplay = (value) => {
+        const addCalculation = [...this.state.operationsUpper, value]
+        this.setState({
+            operationsUpper: addCalculation,
+            operationsLower: [value],
+            previous: value
+        })
+    }
+
     handleClick = e => {
+        // Get the data value of the button that was pressed
         const value = e.target.getAttribute('data-value')
         switch (value) {
             // If calculator is cleared, return initial state
@@ -40,64 +65,60 @@ class CalculatorContainer extends Component {
                     operationsUpper: [],
                     operationsLower: ["0"],
                     calculating: false,
-                    previous: 'clear'
+                    previous: value
                 })
                 break
             // If = is pressed, calculate the result
             case '=':
-                this.calculate()
+                this.calculate(value)
                 break
             // If + is pressed, set lower display to show only '+'
             case '+':
                 if (this.state.previous !== '+') {
-                    const addUpper = [...this.state.operationsUpper, "+"]
-                    this.setState({
-                        operationsUpper: addUpper,
-                        operationsLower: ["+"],
-                        previous: '+'
-                    })
+                    if (this.state.previous === '=') {
+                        this.continueCalculation(value)
+                    } else {
+                        this.addCalculationOnDisplay(value)
+                    }
                 }
                 break
 
             case '*':
                 if (this.state.previous !== '*') {
-                    const multiplyUpper = [...this.state.operationsUpper, "*"]
-                    this.setState({
-                        operationsUpper: multiplyUpper,
-                        operationsLower: ["*"],
-                        previous: '*'
-                    })
+                    if (this.state.previous === '=') {
+                        this.continueCalculation(value)
+                    } else {
+                        this.addCalculationOnDisplay(value)
+                    }
                 }
                 break
 
             case '-':
                 if (!this.state.calculating) {
                     this.setState({
-                        operationsUpper: ["-"],
-                        operationsLower: ["-"],
-                        previous: '-',
+                        operationsUpper: [value],
+                        operationsLower: [value],
+                        previous: value,
                         calculating: true
                     })
                 } else {
                     if (this.state.previous !== '-') {
-                        const subtractUpper = [...this.state.operationsUpper, "-"]
-                        this.setState({
-                            operationsUpper: subtractUpper,
-                            operationsLower: ["-"],
-                            previous: '-'
-                        })
+                        if (this.state.previous === '=') {
+                            this.continueCalculation(value)
+                        } else {
+                            this.addCalculationOnDisplay(value)
+                        }
                     }
                 }
                 break
 
             case '/':
                 if (this.state.previous !== '/') {
-                    const divideUpper = [...this.state.operationsUpper, "/"]
-                    this.setState({
-                        operationsUpper: divideUpper,
-                        operationsLower: ["/"],
-                        previous: '/'
-                    })
+                    if (this.state.previous === '=') {
+                        this.continueCalculation(value)
+                    } else {
+                        this.addCalculationOnDisplay(value)
+                    }
                 }
                 break
 
@@ -110,7 +131,7 @@ class CalculatorContainer extends Component {
                         operationsLower: newOperationsLower,
                         operationsUpper: newOperationsUpper,
                         calculating: true,
-                        previous: 'num'
+                        previous: value
                     })
                     break
                 } else {
@@ -121,7 +142,7 @@ class CalculatorContainer extends Component {
                         this.setState({
                             operationsUpper: newOperationsUpper,
                             operationsLower: newOperationsLower,
-                            previous: 'num'
+                            previous: value
                         })
                     } else {
                         const newOperationsLower = [...this.state.operationsLower, value]
@@ -129,7 +150,7 @@ class CalculatorContainer extends Component {
                         this.setState({
                             operationsUpper: newOperationsUpper,
                             operationsLower: newOperationsLower,
-                            previous: 'num'
+                            previous: value
                         })
                     }
                     break
