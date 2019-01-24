@@ -1,13 +1,16 @@
 .container {
-    --numbers-color: #c7f2cc;
-    --operations-color: #fdd0e4;
+    --numbers-color: #f8eac0;
+    --operations-color: #7fbbab;
+    --buttons-box-shadow: 2px 2px 2px #3f3f3f;
+    --buttons-font-color: #232323;
     font-size: 30px;
     font-family: 'Nova Mono', monospace;
     text-align: center;
     min-height: 400px;
     width: 300px;
     margin: auto;
-    background: LightGray;
+    margin-top: 100px;
+    background: #64696b;
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 20% 1fr;
@@ -16,7 +19,7 @@
     grid-template-areas: 
         "screens"
         "buttons";
-    box-shadow: 4px 4px 1px grey;
+    box-shadow: 4px 4px 1px #3f3f3f;
 }
 
 #screens {
@@ -48,107 +51,122 @@
 }
 
 #clear { 
-    background:#b83658;
+    background:#f66c77;
     grid-column: 1 / 3;
-    box-shadow: 2px 2px 2px grey;
+    box-shadow: var(--buttons-box-shadow);
+    color: var(--buttons-font-color);
     display: flex;
     justify-content: center;
     align-items: center;
 }
 #divide { 
     background: var(--operations-color); 
-    box-shadow: 2px 2px 2px grey; 
+    box-shadow: var(--buttons-box-shadow);
+    color: var(--buttons-font-color);
     display: flex;
     justify-content: center;
     align-items: center;
 }
 #multiply { 
     background: var(--operations-color); 
-    box-shadow: 2px 2px 2px grey; 
+    box-shadow: var(--buttons-box-shadow);
+    color: var(--buttons-font-color); 
     display: flex;
     justify-content: center;
     align-items: center;
 }
 #seven { 
     background: var(--numbers-color); 
-    box-shadow: 2px 2px 2px grey; 
+    box-shadow: var(--buttons-box-shadow);
+    color: var(--buttons-font-color); 
     display: flex;
     justify-content: center;
     align-items: center;
 }
 #eight { 
     background: var(--numbers-color); 
-    box-shadow: 2px 2px 2px grey; 
+    box-shadow: var(--buttons-box-shadow);
+    color: var(--buttons-font-color); 
     display: flex;
     justify-content: center;
     align-items: center;
 }
 #nine { 
     background: var(--numbers-color); 
-    box-shadow: 2px 2px 2px grey; 
+    box-shadow: var(--buttons-box-shadow);
+    color: var(--buttons-font-color); 
     display: flex;
     justify-content: center;
     align-items: center;
 }
 #subtract { 
     background: var(--operations-color); 
-    box-shadow: 2px 2px 2px grey; 
+    box-shadow: var(--buttons-box-shadow);
+    color: var(--buttons-font-color); 
     display: flex;
     justify-content: center;
     align-items: center;
 }
 #four { 
     background: var(--numbers-color); 
-    box-shadow: 2px 2px 2px grey; 
+    box-shadow: var(--buttons-box-shadow);
+    color: var(--buttons-font-color); 
     display: flex;
     justify-content: center;
     align-items: center;
 }
 #five { 
     background: var(--numbers-color); 
-    box-shadow: 2px 2px 2px grey; 
+    box-shadow: var(--buttons-box-shadow);
+    color: var(--buttons-font-color); 
     display: flex;
     justify-content: center;
     align-items: center;
 }
 #six { 
     background: var(--numbers-color); 
-    box-shadow: 2px 2px 2px grey; 
+    box-shadow: var(--buttons-box-shadow);
+    color: var(--buttons-font-color); 
     display: flex;
     justify-content: center;
     align-items: center;
 }
 #add { 
     background: var(--operations-color); 
-    box-shadow: 2px 2px 2px grey; 
+    box-shadow: var(--buttons-box-shadow);
+    color: var(--buttons-font-color); 
     display: flex;
     justify-content: center;
     align-items: center;
 }
 #one { 
     background: var(--numbers-color); 
-    box-shadow: 2px 2px 2px grey; 
+    box-shadow: var(--buttons-box-shadow);
+    color: var(--buttons-font-color); 
     display: flex;
     justify-content: center;
     align-items: center;
 }
 #two { 
     background: var(--numbers-color); 
-    box-shadow: 2px 2px 2px grey;
+    box-shadow: var(--buttons-box-shadow);
+    color: var(--buttons-font-color);
     display: flex;
     justify-content: center;
     align-items: center; 
 }
 #three { 
     background: var(--numbers-color); 
-    box-shadow: 2px 2px 2px grey; 
+    box-shadow: var(--buttons-box-shadow);
+    color: var(--buttons-font-color); 
     display: flex;
     justify-content: center;
     align-items: center;
 }
 #equals { 
     background: var(--operations-color); 
-    box-shadow: 2px 2px 2px grey;
+    box-shadow: var(--buttons-box-shadow);
+    color: var(--buttons-font-color);
     grid-column: 4 / 5;
     grid-row: 4 / 6;
     display: flex;
@@ -157,7 +175,8 @@
 }
 #zero { 
     background: var(--numbers-color); 
-    box-shadow: 2px 2px 2px grey;
+    box-shadow: var(--buttons-box-shadow);
+    color: var(--buttons-font-color);
     grid-column: 1 / 3;
     display: flex;
     justify-content: center;
@@ -165,7 +184,8 @@
 }
 #decimal { 
     background: var(--numbers-color); 
-    box-shadow: 2px 2px 2px grey;
+    box-shadow: var(--buttons-box-shadow);
+    color: var(--buttons-font-color);
     display: flex;
     justify-content: center;
     align-items: center;

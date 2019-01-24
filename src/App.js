@@ -7,7 +7,10 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <CalculatorContainer />
+          <CalculatorContainer />
+          <footer>
+            created by <a href="https://github.com/mikmaj" target="_blank" rel="noopener noreferrer"> mikmaj </a>
+          </footer>
       </div>
     );
   }

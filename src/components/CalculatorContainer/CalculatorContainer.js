@@ -19,13 +19,10 @@ class CalculatorContainer extends Component {
     calculate = (value) => {
         // Show a more precise result on the lower display, and round it up a bit on the upper one for more room
         let result = this.state.operationsUpper.join('')
-        let resultUpper = this.state.operationsUpper.join('')
         if (result) {
             result = math.eval(result)
-            resultUpper = math.eval(resultUpper)
             result = math.format(result, { precision: 8 })
-            resultUpper = math.format(resultUpper, { precision: 4 })
-            const newOperationsUpper = [...this.state.operationsUpper, value, resultUpper]
+            const newOperationsUpper = [...this.state.operationsUpper, value, result]
             this.setState({
                 operationsLower: [result],
                 operationsUpper: newOperationsUpper,
