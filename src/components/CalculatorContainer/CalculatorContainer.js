@@ -15,7 +15,7 @@ class CalculatorContainer extends Component {
         calculating: false,
         previous: ''
     }
-    
+
     calculate = (value) => {
         // Show a more precise result on the lower display, and round it up a bit on the upper one for more room
         let result = this.state.operationsUpper.join('')
@@ -55,6 +55,27 @@ class CalculatorContainer extends Component {
         })
     }
 
+    // Insert whole or decimal numbers on the screen(s)
+    addNumbersToDisplay = (value) => {
+        const newOperationsLower = [...this.state.operationsLower, value]
+        const newOperationsUpper = [...this.state.operationsUpper, value]
+        this.setState({
+            operationsUpper: newOperationsUpper,
+            operationsLower: newOperationsLower,
+            previous: value
+        })
+    }
+
+    // Allow starting a calculation with a decimal or a negative number
+    startCalculationWithSpecial = (value) => {
+        this.setState({
+            operationsUpper: [value],
+            operationsLower: [value],
+            previous: value,
+            calculating: true
+        })
+    }
+
     handleClick = e => {
         // Get the data value of the button that was pressed
         const value = e.target.getAttribute('data-value')
@@ -68,10 +89,36 @@ class CalculatorContainer extends Component {
                     previous: value
                 })
                 break
+
             // If = is pressed, calculate the result
             case '=':
-                this.calculate(value)
+                // Prevent crashing from inputting only an operator and pressing '='
+                if (this.state.previous === '+' || this.state.previous === '-' || this.state.previous === '*' || this.state.previous === '/') {
+                    this.setState({
+                        operationsUpper: [],
+                        operationsLower: ['ERROR']
+                    })
+                } else {
+                    this.calculate(value)
+                }
                 break
+
+            // Allow to start calculating with a '.' 
+            case '.':
+                if (!this.state.calculating) {
+                    this.startCalculationWithSpecial(value)
+                } else {
+                    if (this.state.previous !== '.') {
+                        // Don't do anything if the last button pressed was '=' OR if one decimal has been inserted to the current number
+                        if (this.state.previous === '=' || this.state.operationsLower.includes('.')) {
+                            break
+                        } else {
+                            this.addNumbersToDisplay(value)
+                        }
+                    }
+                }
+                break
+
             // If + is pressed, set lower display to show only '+'
             case '+':
                 if (this.state.previous !== '+') {
@@ -93,14 +140,10 @@ class CalculatorContainer extends Component {
                 }
                 break
 
+            // Allow to start calculating with a '-' 
             case '-':
                 if (!this.state.calculating) {
-                    this.setState({
-                        operationsUpper: [value],
-                        operationsLower: [value],
-                        previous: value,
-                        calculating: true
-                    })
+                    this.startCalculationWithSpecial(value)
                 } else {
                     if (this.state.previous !== '-') {
                         if (this.state.previous === '=') {
@@ -135,25 +178,24 @@ class CalculatorContainer extends Component {
                     })
                     break
                 } else {
-                    // If an operation key was pressed previously, push the number in an empty array on the lower display
-                    if (this.state.previous === '+' || this.state.previous === '-' || this.state.previous === '*' || this.state.previous === '/') {
-                        const newOperationsLower = [value]
-                        const newOperationsUpper = [...this.state.operationsUpper, value]
-                        this.setState({
-                            operationsUpper: newOperationsUpper,
-                            operationsLower: newOperationsLower,
-                            previous: value
-                        })
+                    // Only allow operators after a calculation
+                    if (this.state.previous === '=') {
+                        break
                     } else {
-                        const newOperationsLower = [...this.state.operationsLower, value]
-                        const newOperationsUpper = [...this.state.operationsUpper, value]
-                        this.setState({
-                            operationsUpper: newOperationsUpper,
-                            operationsLower: newOperationsLower,
-                            previous: value
-                        })
+                        // If an operation key was pressed previously, push the number in an empty array on the lower display
+                        if (this.state.previous === '+' || this.state.previous === '-' || this.state.previous === '*' || this.state.previous === '/') {
+                            const newOperationsLower = [value]
+                            const newOperationsUpper = [...this.state.operationsUpper, value]
+                            this.setState({
+                                operationsUpper: newOperationsUpper,
+                                operationsLower: newOperationsLower,
+                                previous: value
+                            })
+                        } else {
+                            this.addNumbersToDisplay(value)
+                        }
+                        break
                     }
-                    break
                 }
         }
     }
