@@ -30,6 +30,9 @@ class CalculatorContainer extends Component {
                 previous: value
             })
         }
+        if (this.state.operationsUpper.length > 27) {
+            this.tooManyDigits()
+        }
     }
 
     // Allow calculation chaining by extracting the result and continuing calculation normally
@@ -40,6 +43,9 @@ class CalculatorContainer extends Component {
             operationsLower: [value],
             previous: value
         })
+        if (this.state.operationsUpper.length > 27) {
+            this.tooManyDigits()
+        }
     }
 
     // Add the operator on the lower display and make sure the whole operation is on the upper display
@@ -50,6 +56,9 @@ class CalculatorContainer extends Component {
             operationsLower: [value],
             previous: value
         })
+        if (this.state.operationsUpper.length > 27) {
+            this.tooManyDigits()
+        }
     }
 
     // Insert whole or decimal numbers on the screen(s)
@@ -70,6 +79,15 @@ class CalculatorContainer extends Component {
             operationsLower: [value],
             previous: value,
             calculating: true
+        })
+    }
+
+    tooManyDigits = value => {
+        this.setState({
+            operationsUpper: [],
+            operationsLower: ["TOO MANY DIGITS"],
+            previous: value,
+            calculating: false
         })
     }
 
@@ -189,7 +207,9 @@ class CalculatorContainer extends Component {
                                 previous: value
                             })
                         } else {
-                            this.addNumbersToDisplay(value)
+                            if (this.state.operationsLower.length <= 19) {
+                                this.addNumbersToDisplay(value)
+                            }
                         }
                         break
                     }
